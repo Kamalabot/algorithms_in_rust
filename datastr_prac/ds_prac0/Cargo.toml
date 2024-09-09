@@ -1,4 +1,6 @@
 [package]
-name = "ptrn_prac0"
+name = "ds_prac0"
 version = "0.1.0"
 edition = "2021"
+
+[dependencies]
