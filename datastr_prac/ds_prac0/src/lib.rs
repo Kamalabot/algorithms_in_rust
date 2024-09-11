@@ -37,8 +37,42 @@ pub fn stack_traverse(root: Option<Box<Node>>) -> String {
     output
 }
 
-pub fn fast_slow(root: Node) -> bool {
-    true
+pub fn fast_slow(root: Option<&Box<Node>>) -> bool {
+    let mut slow = root;
+    let mut fast = root;
+    while let (Some(f), Some(s)) = (fast, slow) {
+        slow = s.next.as_ref();
+        // in order to reach the fast.next.next
+        // need to use if let as below
+        if let Some(next_fast) = &f.next {
+            fast = next_fast.next.as_ref();
+        } else {
+            return false;
+        }
+        if slow == fast {
+            return true;
+        }
+    }
+    false
+}
+
+pub fn list_mid(root: Option<&Box<Node>>) -> Option<i32> {
+    let mut slow = root;
+    let mut fast = root;
+    while let (Some(f), Some(s)) = (fast, slow) {
+        slow = s.next.as_ref();
+        // in order to reach the fast.next.next
+        // need to understand the below syntax
+        fast = if let Some(next_fast) = &f.next {
+            next_fast.next.as_ref()
+        } else {
+            None
+        };
+        if fast.is_none() {
+            return slow.map(|node| node.val);
+        }
+    }
+    None
 }
 
 pub fn depth_first_tt(root: Binode) -> String {
@@ -87,5 +121,18 @@ mod tests {
             stack_traverse(Some(root)),
             "5 -->7 -->6 -->2 -->3 -->9 -->10 -->12 -->".to_owned()
         );
+    }
+
+    #[test]
+    fn fast_slow_test() {
+        let in_list = vec![5, 7, 6, 2, 3, 9, 10, 12];
+        println!("List is made");
+        let root = make_list(in_list).unwrap();
+        // if the in_list is moved in to make_list, it cannot be used again
+        println!("Testing two pointer");
+        // let box_opt_root = Some(Box::new(root));
+        // we have to get no cycle till here
+        assert!(!fast_slow(Some(&root)));
+        // TODO need to think of creating a cycle below
     }
 }
