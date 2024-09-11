@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "core_prac0"
+version = "0.1.0"
+
+[[package]]
 name = "ds_prac0"
 version = "0.1.0"
 
