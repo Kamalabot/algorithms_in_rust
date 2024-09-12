@@ -83,8 +83,45 @@ pub fn binary_first_tt(root: Binode) -> String {
     "Your traversal algo here".to_owned()
 }
 
-pub fn inplace_reversal(root: Node) -> String {
-    "Your traversal algo here".to_owned()
+pub fn inplace_reversal(root: Option<Box<Node>>) -> Option<Box<Node>> {
+    let mut prev = None;
+    let mut current = root;
+
+    while let Some(mut curr_node) = current {
+        let next = curr_node.next.take();
+        curr_node.next = prev;
+        prev = Some(curr_node);
+        current = next;
+    }
+    prev
+}
+
+pub fn reverse_between(mut head: Option<Box<Node>>, m: usize, n: usize) -> Option<Box<Node>> {
+    if m == n {
+        return head;
+    }
+
+    let mut dummy = Some(Box::new(Node { val: 0, next: head }));
+    let mut prev = dummy.as_mut();
+
+    for _ in 0..m - 1 {
+        prev = prev.unwrap().next.as_mut();
+    }
+
+    let mut current = prev.as_mut().unwrap().next.take();
+    let mut next = current.as_mut().unwrap().next.take();
+
+    for _ in m..n {
+        let temp = next.as_mut().unwrap().next.take();
+        next.as_mut().unwrap().next = current;
+        current = next;
+        next = temp;
+    }
+
+    prev.as_mut().unwrap().next.as_mut().unwrap().next = next;
+    prev.as_mut().unwrap().next = current;
+
+    dummy.unwrap().next
 }
 
 pub fn make_list(in_list: Vec<i32>) -> Option<Box<Node>> {
