@@ -1,4 +1,4 @@
-#[allow(unused_variables)]
+#![allow(unused_variables)]
 use std::fmt::Write;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -16,13 +16,22 @@ impl Node {
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Binode {
     pub val: i32,
     pub left: Option<Box<Binode>>,
     pub right: Option<Box<Binode>>,
 }
 
+impl Binode {
+    fn new(val: i32) -> Self {
+        Binode {
+            val,
+            left: None,
+            right: None,
+        }
+    }
+}
 pub fn stack_traverse(root: Option<Box<Node>>) -> String {
     // The type that we are choosing to send in
     // will decide how they behave inside the function
@@ -75,14 +84,6 @@ pub fn list_mid(root: Option<&Box<Node>>) -> Option<i32> {
     None
 }
 
-pub fn depth_first_tt(root: Binode) -> String {
-    "Your traversal algo here".to_owned()
-}
-
-pub fn binary_first_tt(root: Binode) -> String {
-    "Your traversal algo here".to_owned()
-}
-
 pub fn inplace_reversal(root: Option<Box<Node>>) -> Option<Box<Node>> {
     let mut prev = None;
     let mut current = root;
@@ -133,6 +134,64 @@ pub fn make_list(in_list: Vec<i32>) -> Option<Box<Node>> {
         curr = Some(node);
     }
     curr
+}
+
+pub fn make_tree(in_list: Vec<i32>) -> Option<Box<Binode>> {
+    // traverses and attaches data to the tree nodes
+    if in_list.is_empty() {
+        return None;
+    }
+    let curr = Some(Box::new(Binode::new(in_list[0])));
+    let mut queue = vec![curr.clone()];
+
+    let mut idx = 1;
+    while idx < in_list.len() {
+        // pop the first element from the queue
+        if let Some(mut node) = queue.remove(0) {
+            // attach the left and right node to the curr node
+            if idx < in_list.len() {
+                node.left = Some(Box::new(Binode::new(in_list[idx])));
+                queue.push(node.left.clone())
+            }
+            idx += 1;
+            if idx < in_list.len() {
+                node.right = Some(Box::new(Binode::new(in_list[idx])));
+                queue.push(node.right.clone())
+            }
+            idx += 1;
+        }
+    }
+    curr
+}
+
+pub fn depth_first_tt(root: &Option<Box<Binode>>, result: &mut Vec<i32>) {
+    if let Some(n) = root {
+        depth_first_tt(&n.left, result);
+        result.push(n.val);
+        depth_first_tt(&n.right, result);
+    }
+}
+
+use std::collections::VecDeque;
+
+pub fn binary_first_tt(root: &Option<Box<Binode>>) -> Vec<i32> {
+    let mut result = Vec::new();
+    let mut queue = VecDeque::new();
+
+    if let Some(node) = root {
+        queue.push_back(node.clone());
+    }
+    while let Some(node) = queue.pop_front() {
+        result.push(node.val);
+
+        if let Some(left) = &node.left {
+            queue.push_back(left.clone());
+        }
+        if let Some(right) = &node.right {
+            queue.push_back(right.clone());
+        }
+    }
+    result
 }
 
 #[cfg(test)]
