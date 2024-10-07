@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "bt_pattern_02"
+version = "0.1.1"
+
+[[package]]
 name = "core_prac0"
 version = "0.1.0"
 
