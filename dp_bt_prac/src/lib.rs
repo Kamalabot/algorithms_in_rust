@@ -8,6 +8,24 @@ pub fn print_vector_map(tmap: Vec<Vec<i32>>) {
         println!()
     }
 }
+use std::fmt::{Debug, Display};
+
+pub fn with_where<T>()
+where
+    T: Display + Debug,
+{
+    println!("Using where instead of direct update")
+}
+pub fn print_vector_generic<T: std::fmt::Display>(tmap: Vec<Vec<T>>) {
+    // takes in array of 4 i32 vectors
+    // and prints them in a spaced grid
+    for elm in tmap.iter() {
+        for jdx in elm {
+            print!("{} ", jdx)
+        }
+        println!()
+    }
+}
 pub fn print_map(tmap: [Vec<i32>; 4]) {
     // takes in array of 4 i32 vectors
     // and prints them in a spaced grid
