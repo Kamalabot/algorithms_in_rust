@@ -1,4 +1,4 @@
-mod collection_usecase;
+// mod collection_usecase;
 
 fn main() {
     println!("pattern practice session 1");
@@ -6,66 +6,81 @@ fn main() {
 
 pub fn prefix_sum(in_list: Vec<i32>, i: usize, j: usize) -> i32 {
     // create prefix sum vector fill with 0
+    let mut p = vec![0; in_list.len()];
     // assing val at 0 idx to p[0]
+    p[0] = in_list[0];
     // enumerate from 1 to full_length of list
-    // take prefix value at idx - 1, add it to curr value at in_list idx
-    // assign it as prefix value at idx
+    for idx in 1..in_list.len() {
+        // take prefix value at idx - 1, add it to curr value at in_list idx
+        p[idx] = p[idx - 1] + in_list[idx];
+        // assign it as prefix value at idx
+    }
     // subtract the prefix value at j & i - 1 and return
+    p[i] - p[j - 1]
 }
 use std::cmp::{max, Ordering};
 
 pub fn two_pointer(in_list: Vec<i32>, target: i32) -> Option<[usize; 2]> {
-    // declare left, right for both ends and iter variables
-    let mut left: usize = 0;
-    let mut right: usize = in_list.len() - 1;
-    let mut iter = 0;
-
+    // declare left, right for two pointer & iter variable
+    let mut left = 0;
+    let mut right = in_list.len();
     while left < right {
+        //  get the sum of value as left and right
         let sum = in_list[left] + in_list[right];
-        println!("Sum on iteration {} is {}", iter, sum);
-        // the below if takes care of returning
-        // Some(value)
-        if target == sum {
-            return Some([right, left]);
-        } // the match usage is requiring same return types
-        match sum.cmp(&target) {
-            Ordering::Less => left += 1,
-            Ordering::Greater => right -= 1,
-            Ordering::Equal => (),
+        //      Check if the sum is equal to target
+        if sum == target {
+            //      matches then return left and right
+            return Some([left, right]);
+        } else {
+            //      else run a match on sum.cmp(&target)
+            match sum.cmp(&target) {
+                //          if sum is less then move left by 1
+                Ordering::Less => left += 1,
+                //          is greater then move right one step back
+                Ordering::Greater => right -= 1,
+                //          if equal then unit
+                Ordering::Equal => (),
+            }
         }
-        iter += 1;
+        //  increase iter by 1
     }
+    // not finding then return None
     None
 }
 pub fn slide_win(in_list: Vec<i32>, k: usize) -> i32 {
-    let mut max_sum = in_list[..k].iter().sum();
+    // get the sum of elements upto k
+    let mut max_sum: i32 = in_list.iter().take(k).sum();
+    // make that sum as curr
     let mut curr = max_sum;
+    // enuerate from k to end of list
     for idx in k..in_list.len() {
+        // add the val at idx and subtract val at idx - k to curr
         curr += in_list[idx] - in_list[idx - k];
-        max_sum = max(curr, max_sum);
-        println!("iteration max sum: {}", max_sum);
+        // assign max of max_sum & curr to max_sum
+        max_sum = curr.max(max_sum);
     }
-    println!("Final Maxsum: {}", max_sum);
+    // return max_sum
     max_sum
 }
 
 pub fn monot_stack(in_list: Vec<i32>) -> Vec<i32> {
     // assume that none of the elements have
-    // greatest elements
-    let mut result_vec = vec![-1; in_list.len()];
-    // let stack: Vec<usize> = Vec::new();
-    let mut stack: Vec<usize> = Vec::with_capacity(in_list.len());
+    // greatest elements, all -1 in result vector
+    let mut mono = vec![-1; in_list.len()];
+    // create stack with with_capacity equal to in_list length
+    let mut stack = Vec::with_capacity(in_list.len());
+    // enumerate 0 to length of list
     for idx in 0..in_list.len() {
         // While stack is not empty and current element is greater than the element
-        // corresponding to the index at the top of the stack
         while !stack.is_empty() && in_list[idx] > in_list[*stack.last().unwrap()] {
-            // Pop the index from the stack and update the result_vec for that index
-            result_vec[stack.pop().unwrap()] = in_list[idx];
+            // corresponding to the index at the top of the stack (*stack.last().unwrap())
+            mono[stack.pop().unwrap()] = in_list[idx];
+            // Pop the index from the stack and update the result_vec at the returned index
         }
+        // push idx into stack, outside while loop
         stack.push(idx);
     }
-    println!("Final Stack: {:?}", result_vec);
-    result_vec
+    mono
 }
 
 use std::cmp::Reverse;
@@ -74,94 +89,111 @@ use std::collections::BinaryHeap;
 pub fn n_largest(in_list: Vec<i32>, n: usize) -> Vec<i32> {
     // the logic below keeps the heap to required n-largest
     // rest are popped
-    let mut min_heap = BinaryHeap::with_capacity(n);
-    for num in in_list {
+    // create a BinaryHeap with capacity of n
+    let mut binheap = BinaryHeap::with_capacity(n);
+    // enumerate the elem of in_list and push into heap with reverse
+    for idx in in_list {
         // what happens below is unclear
-        println!("What happens in reverse num: {:?}", Reverse(num));
-        min_heap.push(Reverse(num));
-
-        if min_heap.len() > n {
-            min_heap.pop();
-            // when the length exceeds pop
-            // the smallest item
+        println!("{:?}", Reverse(idx));
+        binheap.push(Reverse(idx));
+        // when the length exceeds pop
+        if binheap.len() > n {
+            binheap.pop();
         }
     }
-    let collected_min: Vec<i32> = min_heap
-        .into_sorted_vec()
-        .into_iter()
-        .map(|x| x.0) // here we are looking at tuple elem 0
-        .collect();
-    println!("Collected Min Heap: {:?}", collected_min[0]);
-    collected_min
+    // the smallest item
+    let ret_vec: Vec<i32> = binheap.into_sorted_vec().into_iter().map(|x| x.0).collect();
+    // collect the remaining n elem after extracting the 1st elem
+    // of the tuple, as i32 vectors
+    // return the i32 vecto
+    ret_vec
 }
 
 pub fn overlap_intl(mut in_list: Vec<(i32, i32)>) -> Vec<(i32, i32)> {
     // let test = vec![(15, 6), (7, 10)];
+    // sort the intervals using a.0.cmp(b.0)
     in_list.sort_by(|a, b| a.0.cmp(&b.0));
-
-    let mut merged_interval: Vec<(i32, i32)> = Vec::new();
-
-    let mut curr_interval = in_list[0];
-
+    // create a empty merged_interval vector
+    let mut merged = Vec::new();
+    // assign curr to first interval
+    let mut curr = in_list[0];
+    // enumerate intervals in the list by skipping 1st
     for intl in in_list.into_iter().skip(1) {
-        if curr_interval.1 >= intl.0 {
+        // check  if curr.1 >= intl_elm.0
+        if curr.1 >= intl.0 {
             //get the max of the intervals
-            curr_interval.1 = curr_interval.1.max(intl.1);
+            curr.1 = intl.1.max(curr.1);
         } else {
-            merged_interval.push(curr_interval);
-            // the last intl is checked alreadb
-            // and assigned to curr_interval
-            curr_interval = intl;
+            merged.push(curr);
+            curr = intl;
         }
     }
-    merged_interval.push(curr_interval);
-    println!("Merged intervals are: {:?}", merged_interval);
-    merged_interval
+    // the last intl is checked alreadb
+    merged.push(curr);
+    // and assigned to curr_interval
+    // push the last interval
+    merged
 }
 
 pub fn modified_search(in_list: Vec<i32>, target: i32) -> Option<usize> {
+    // if in_list is empty, then return None
     if in_list.is_empty() {
         return None;
     }
-    println!("Inlist is: {:?}", in_list);
     let mut left = 0;
     let mut right = in_list.len() - 1;
-
+    // assign left and right, right to len() - 1
     while left <= right {
+        // get mid by left + (right - left) / 2
         let mid = left + (right - left) / 2;
+        // check if target is at mid then return mid
         if target == in_list[mid] {
             return Some(mid);
         }
+        // check if val @ left <= val @ mid
         if in_list[left] <= in_list[mid] {
+            // if yes, then check if target b/w left & mid
             if in_list[left] <= target && target < in_list[mid] {
+                // if yes then make right to move to mid - 1
                 right = mid - 1;
+            // else left to move to mid + 1
             } else {
                 left = mid + 1;
             }
         } else {
+            // if val @ left > val @ mid
             if in_list[mid] < target && target <= in_list[right] {
-                left = mid + 1;
+                // check if target is b/w mid and right
+                left = mid + 1
+            //  if yes then move left to mid + 1
             } else {
+                //  else move right to mid - 1
                 right = mid - 1;
             }
         }
     }
+
     None
 }
 
 pub fn bin_search(in_list: Vec<i32>, target: i32) -> Option<usize> {
+    // assign left and right,
     let mut left = 0;
     let mut right = in_list.len() - 1;
-
+    // while left <= right
     while left <= right {
+        // get the mid value, check if target at mid and return
         let mid = left + (right - left) / 2;
+        // if not, check if target is greater than mid,
         if target == in_list[mid] {
             return Some(mid);
         }
         if target > in_list[mid] {
+            // yes then move left to  left +  mid
             left += mid;
+        // no then move right to right - mid
         } else {
-            right -= mid
+            right -= mid;
         }
     }
     None

@@ -23,6 +23,10 @@ name = "ptrn_prac1"
 version = "0.1.0"
 
 [[package]]
+name = "ptrn_prac2"
+version = "0.1.0"
+
+[[package]]
 name = "sort_prac0"
 version = "0.1.0"
 
