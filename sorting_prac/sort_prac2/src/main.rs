@@ -22,6 +22,7 @@ pub fn insertion_sort(in_list: Vec<i32>) -> Vec<i32> {
     // enter while loop when jdx >=0 and val at jdx is less than key
     // assign current jdx value to jdx + 1 location
     // decrement jdx inside while loop
+    // updt the last with jdx + 1 with key
     // return list
     in_list
 }

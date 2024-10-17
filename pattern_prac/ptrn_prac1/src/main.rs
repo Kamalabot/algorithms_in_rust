@@ -5,20 +5,17 @@ fn main() {
 }
 
 pub fn prefix_sum(in_list: Vec<i32>, i: usize, j: usize) -> i32 {
-    let mut p = vec![0; in_list.len()]; // this must fill with 0
-                                        // let p = (0..in_list.len()).collect() is anothe option
-                                        // println!("P is {:?}", p);
-                                        // iterate over the elm with idx
-    p[0] = in_list[0];
-    for idx in 1..in_list.len() {
-        p[idx] = p[idx - 1] + in_list[idx];
-    }
-    // println!("prefix summed {:?}", p);
-    p[j] - p[i - 1]
+    // create prefix sum vector fill with 0
+    // assing val at 0 idx to p[0]
+    // enumerate from 1 to full_length of list
+    // take prefix value at idx - 1, add it to curr value at in_list idx
+    // assign it as prefix value at idx
+    // subtract the prefix value at j & i - 1 and return
 }
 use std::cmp::{max, Ordering};
 
 pub fn two_pointer(in_list: Vec<i32>, target: i32) -> Option<[usize; 2]> {
+    // declare left, right for both ends and iter variables
     let mut left: usize = 0;
     let mut right: usize = in_list.len() - 1;
     let mut iter = 0;
