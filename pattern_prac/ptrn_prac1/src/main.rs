@@ -1,4 +1,4 @@
-// mod collection_usecase;
+mod collection_usecase;
 
 fn main() {
     println!("pattern practice session 1");
@@ -16,21 +16,21 @@ pub fn prefix_sum(in_list: Vec<i32>, i: usize, j: usize) -> i32 {
         // assign it as prefix value at idx
     }
     // subtract the prefix value at j & i - 1 and return
-    p[i] - p[j - 1]
+    p[j] - p[i - 1]
 }
 use std::cmp::{max, Ordering};
 
 pub fn two_pointer(in_list: Vec<i32>, target: i32) -> Option<[usize; 2]> {
     // declare left, right for two pointer & iter variable
     let mut left = 0;
-    let mut right = in_list.len();
+    let mut right = in_list.len() - 1;
     while left < right {
         //  get the sum of value as left and right
         let sum = in_list[left] + in_list[right];
         //      Check if the sum is equal to target
         if sum == target {
             //      matches then return left and right
-            return Some([left, right]);
+            return Some([right, left]);
         } else {
             //      else run a match on sum.cmp(&target)
             match sum.cmp(&target) {
@@ -235,7 +235,7 @@ mod tests {
     #[test]
     fn mod_search_test() {
         let in_list = vec![5, 7, 6, 2, 3, 9, 10, 12];
-        assert_eq!(modified_search(in_list, 5), Some(0));
+        assert_eq!(modified_search(in_list, 10), Some(6));
         // the above func will consume in_list
         let in_list = vec![5, 7, 6, 2, 3, 9, 10, 12];
         assert_eq!(modified_search(in_list, 25), None);
