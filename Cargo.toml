@@ -1,5 +1,5 @@
 [workspace]
 
 resolver="2"
-members = [ "core_prac/core_prac0", "datastr_prac/ds_prac0", "dp_bt_prac", "pattern_prac/ptrn_prac0", "pattern_prac/ptrn_prac1", "pattern_prac/ptrn_prac2","sorting_prac/sort_prac0", "sorting_prac/sort_prac1", "sorting_prac/sort_prac2"]
+members = [ "core_prac/core_prac0", "datastr_prac/ds_prac0", "datastr_prac/ds_prac1", "dp_bt_prac", "pattern_prac/ptrn_prac0", "pattern_prac/ptrn_prac1", "pattern_prac/ptrn_prac2","sorting_prac/sort_prac0", "sorting_prac/sort_prac1", "sorting_prac/sort_prac2"]
 
