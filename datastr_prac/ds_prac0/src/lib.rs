@@ -80,6 +80,7 @@ pub fn list_mid(root: Option<&Box<Node>>) -> Option<i32> {
         if fast.is_none() {
             return slow.map(|node| node.val);
         }
+        // how take and map are different
     }
     None
 }
