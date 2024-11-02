@@ -92,7 +92,11 @@ fn longest<T 'a>(str1: T 'a, str2: T 'b){
     lock() on the mutex
 
 - What is purpose of Rc and RefCell?
+
   - Rc is Ref counted pointer, that keep tracks of
     refs/ barrows in non-threaded code.
   - RefCell allows the barrow and mutable barrow
     of Rc pointer values in non-threaded code.
+
+- Recollect the Send and Sync purpose in relation
+  to threads
