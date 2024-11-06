@@ -1,4 +1,4 @@
-#![allow(warnings)]
+// #![allow(warnings)]
 #![allow(deadcode)]
 
 use rand::random;
