@@ -22,10 +22,10 @@ fn main() {
 
     let philoname = "Cphilo".to_owned();
     let cl2 = || philoname.len();
-
     println!("Length is {:?}", cl2());
     println!("Length is {:?}", cl2());
 
+    let philoname = 56;
     let cl3 = move || {
         let yname = philoname;
         yname
