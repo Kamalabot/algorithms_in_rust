@@ -42,11 +42,11 @@ fn div_by_zero_error(a: i32, b: i32) -> Result<i32, ZeroDivideError> {
 // Combining different error types using `Box<dyn Error>`
 pub fn parse_and_double(input: &str) -> Result<i32, Box<dyn Error>> {
     let number = input.parse::<i32>()?;
-    if number < 0 {
-        return Err(Box::new(ZeroDivideError::new(
-            "Negative number due to number parsing",
-        )));
-    }
+    // if number < 0 {
+    //     return Err(Box::new(ZeroDivideError::new(
+    //         "Negative number due to number parsing",
+    //     )));
+    // }
     Ok(number * 2)
 }
 
