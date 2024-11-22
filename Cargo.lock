@@ -96,6 +96,10 @@ name = "core_prac1"
 version = "0.1.0"
 
 [[package]]
+name = "core_prac10"
+version = "0.1.0"
+
+[[package]]
 name = "core_prac2"
 version = "0.1.0"
 
