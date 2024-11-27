@@ -536,6 +536,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "solid_patterns00"
+version = "0.1.0"
+
+[[package]]
 name = "sort_prac0"
 version = "0.1.0"
 
