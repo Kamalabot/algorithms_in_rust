@@ -1,5 +1,0 @@
-# This directory is a Syncthing folder marker.
-# Do not delete.
-
-folderID: 2agf7-p7hat
-created: 2024-10-12T09:53:49+05:30
